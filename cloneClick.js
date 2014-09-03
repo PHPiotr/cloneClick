@@ -39,7 +39,11 @@
                                         if (settings.canTriggerEvent.call(this)) {
                                                 that.click();
                                         } else {
-                                            alert('Return "true" from settings.canTriggerEvent() in order to click...');
+						// Do not trigger events
+						$('form').submit(function() {
+							return false;
+						});
+						return false;
                                         }                       
                                 }
                         });
@@ -49,18 +53,11 @@
 
         $.cloneClick.defaults = {
                 // Elements whose click events will be intercepted
-                element: ':button',
+                element: ':button, :submit',
                 // Differentiate clone from its prototype
                 clone_class: 'clone',
-                // Check if click events of the initial element can be triggered
+		// Can events of the initial element be triggered? (true|false)
                 canTriggerEvent: function() {}
         };
 
 }(jQuery));
-
-$(document).ready(function() {
-	$.cloneClick();
-    $('button').click(function() {
-        alert('Click event triggered by cloned button!!!');
-    });
-});
